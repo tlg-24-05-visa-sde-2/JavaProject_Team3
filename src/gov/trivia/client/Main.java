@@ -1,11 +1,11 @@
 package gov.trivia.client;
 
 import gov.trivia.controller.Game;
+import gov.trivia.model.QuestionLoader;
 
 class Main {
-
     public static void main(String[] args) {
-        Game game = new Game();
-        game.execute();
+        QuestionLoader loader = new QuestionLoader();
+        loader.loadQuestions();
     }
 }
