@@ -10,6 +10,8 @@ import java.util.List;
 
 class Main {
     public static void main(String[] args) {
+        Game game = new Game();
+        game.execute();
         QuestionBank bank = new QuestionBank();
         Question question = bank.nextQuestion(Category.SPORTS);
         System.out.println(question.getQuestionText());
