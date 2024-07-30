@@ -12,6 +12,4 @@ public class QuestionBank {
     public Question nextQuestion(Category category) {
         return questionMap.get(category).remove(0);
     }
-
-
 }
