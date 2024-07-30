@@ -1,5 +1,8 @@
 package gov.trivia.model;
 
 public enum Category {
-    SPORTS, HISTORY, MUSIC, JAYISMS
+    SPORTS,
+    HISTORY,
+    MUSIC,
+    JAYISMS
 }
