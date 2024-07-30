@@ -1,8 +1,8 @@
 package gov.trivia.controller;
 
-import gov.trivia.model.Category;
-import gov.trivia.model.QuestionLoader;
+import gov.trivia.model.*;
 
+import java.util.List;
 import java.util.Scanner;
 
 // all the logic for running the game
@@ -33,12 +33,38 @@ public class Game {
         System.out.println("Welcome to QuizWiz! Please enter your name: ");
         Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
-        for(Category category : Category.values()){
-            System.out.println(category);
+
+        Category[] categories = Category.values();
+        for(int i = 0; i < categories.length; i++){
+            System.out.println((i + 1) + ". " + categories[i]);
         }
         System.out.println("Welcome " + name + ". Please pick a category: ");
-        // user picks category
+        String input = scanner.nextLine();
 
+        QuestionBank questionBank = new QuestionBank();
+        Question question = null;
+        if(input.equals("1")){
+            question = questionBank.nextQuestion(Category.SPORTS);
+        } else if(input.equals("2")){
+            question = questionBank.nextQuestion(Category.HISTORY);
+        } else if(input.equals("3")) {
+            question = questionBank.nextQuestion(Category.MUSIC);
+        } else {
+            System.out.println("Invalid input");
+        }
+
+        System.out.println(question.getQuestionText());
+        List<Choice> options = question.getOptions();
+        for (Choice choice : options) {
+            if (choice.isCorrect()) {
+                System.out.print("Correct - ");
+                System.out.println(choice.getOptionText());
+            } else {
+                System.out.println(choice.getOptionText());
+            }
+
+        }
+        // user picks category
 
         // QuestionLoader loads map up with questions
 
