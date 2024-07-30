@@ -25,7 +25,7 @@ public class QuestionLoader {
                     if (choice.endsWith("*")) {
                         choiceObj = new Choice(choice.substring(0, choice.length() - 1), true);
                     } else {
-                        choiceObj = new Choice(choice.substring(0, choice.length() - 1), false);
+                        choiceObj = new Choice(choice.substring(0, choice.length()), false);
                     }
                     choices.add(choiceObj);
                 }
