@@ -3,5 +3,9 @@ package gov.trivia.client;
 import gov.trivia.controller.Game;
 
 class Main {
-    Game game = new Game();
+
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.execute();
+    }
 }
