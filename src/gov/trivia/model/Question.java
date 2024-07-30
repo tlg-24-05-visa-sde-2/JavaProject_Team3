@@ -1,9 +1,25 @@
 package gov.trivia.model;
 
-import java.util.List;
+public class Question {
+    private String questionText;
+    private String[] choices;
+    private int correctOptionKey;
 
-class Question {
-    public Category category;
-    public String questionText;
-    public List<Choice> options;
+    public Question(String questionText, String[] choices, int correctOptionKey) {
+        this.questionText = questionText;
+        this.choices = choices;
+        this.correctOptionKey = correctOptionKey;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public String[] getChoices() {
+        return choices;
+    }
+
+    public boolean isChoiceCorrect(String choice) {
+        return choices[correctOptionKey].equals(choice);
+    }
 }
