@@ -35,7 +35,7 @@ public class Game {
         String name = scanner.nextLine();
 
         Category[] categories = Category.values();
-        for(int i = 0; i < categories.length; i++){
+        for(int i = 0; i < categories.length - 1; i++){
             System.out.println((i + 1) + ". " + categories[i]);
         }
         System.out.println("Welcome " + name + ". Please pick a category: ");

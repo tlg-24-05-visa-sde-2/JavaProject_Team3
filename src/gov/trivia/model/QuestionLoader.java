@@ -7,7 +7,7 @@ import java.util.*;
 
 //SPORTS,What baseball player holds the record for most home runs?,Hank Aaron;Babe Ruth;Barry Bonds*;Jay Rostosky
 public class QuestionLoader {
-    private static final String questionFilePath = "data/question-data.csv";
+    private static final String questionFilePath = "data/question.bank.csv";
 
     public static Map<Category, List<Question>> loadQuestions() {
         Map<Category, List<Question>> questions = new HashMap<>();
