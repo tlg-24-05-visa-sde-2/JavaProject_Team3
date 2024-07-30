@@ -5,7 +5,6 @@ import gov.trivia.model.QuestionLoader;
 
 class Main {
     public static void main(String[] args) {
-        QuestionLoader loader = new QuestionLoader();
-        loader.loadQuestions();
+        System.out.println(QuestionLoader.loadQuestions());
     }
 }
