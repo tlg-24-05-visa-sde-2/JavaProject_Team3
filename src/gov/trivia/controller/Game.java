@@ -6,7 +6,7 @@ import gov.trivia.model.Category;
 
 import java.util.*;
 
-// all the logic for running the game
+// All the logic for running the game
 public class Game {
     private Player player;
     private QuestionBank questionBank;
@@ -16,7 +16,6 @@ public class Game {
     private int incorrectRoundAnswers = 0;
     private int failedRounds = 0;
 
-
     public void execute() {
         boolean gameOver = false;
 
@@ -25,7 +24,7 @@ public class Game {
 
         while (!gameOver) {
             if (failedRounds > 1) {
-                System.out.println("You lose!");
+                System.out.println("Sorry, you missed two questions in two different rounds! Please try again.");
                 break;
             }
 
@@ -44,7 +43,7 @@ public class Game {
     private void initializeGame() {
         System.out.println("Loading questions...");
         loadQuestions();
-        System.out.println("Done!");
+        System.out.println("Let's Play Some Trivia!");
 
         System.out.println("Welcome to QuizWiz! Please enter your name: ");
         Scanner scanner = new Scanner(System.in);
@@ -60,29 +59,44 @@ public class Game {
         System.out.println("-".repeat(questionText.length()));
     }
 
+    private void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private Boolean promptForChoice(Question question) {
+        clearConsole();
         Scanner scanner = new Scanner(System.in);
 
         List<Choice> options = question.getOptions();
         String[] choices = {"A", "B", "C", "D"};
         for (int i = 0; i < choices.length; i++) {
-            System.out.println(choices[i] + " - " + options.get(i).getOptionText());
+            if (i < options.size()) {
+                System.out.println(choices[i] + " - " + options.get(i).getOptionText());
+            }
         }
 
         System.out.println("Enter your guess: ");
         String input = scanner.nextLine();
 
         while (true) {
-            if (Arrays.stream(choices).anyMatch(input::equalsIgnoreCase)) {
-                int choiceIndex = Arrays.asList(choices).indexOf(input.toUpperCase());
+            int choiceIndex = Arrays.asList(choices).indexOf(input.toUpperCase());
+            if (choiceIndex >= 0 && choiceIndex < options.size()) {
                 Choice guess = options.get(choiceIndex);
-
                 return guess.isCorrect();
             } else {
                 System.out.println("Invalid input. Please enter A, B, C, or D");
+                input = scanner.nextLine();
             }
         }
-
     }
 
     private void displayCategories() {
@@ -93,21 +107,36 @@ public class Game {
     }
 
     private Category promptForCategory() {
+        clearConsole();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Hello " + player.getName() + ". Please pick a category: ");
+        System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
         displayCategories();
 
         String input = scanner.nextLine();
+        int categoryIndex = -1;
+        while (true) {
+            try {
+                categoryIndex = Integer.parseInt(input);
+                if (categoryIndex >= 1 && categoryIndex <= Category.values().length) {
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter a number between 1 and " + Category.values().length);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number between 1 and " + Category.values().length);
+            }
+            input = scanner.nextLine();
+        }
 
-        return Category.fromId(Integer.parseInt(input));
+        return Category.fromId(categoryIndex);
     }
 
     private void playRound() {
         boolean roundOver = false;
 
         Category category = promptForCategory();
-        System.out.println("You have chosen " + category + " - GOOD LUCK!");
+        System.out.println("You have chosen " + category + " - Give it your best shot, you've got this!");
 
         while (!roundOver) {
             Question question = questionBank.nextQuestion(category);
@@ -167,5 +196,3 @@ public class Game {
         System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 }
-
-
