@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
-// all the logic for running the game
 public class Game {
     private Player player;
     private QuestionBank questionBank;
@@ -18,12 +17,11 @@ public class Game {
     private int roundCount = 1;
     private int questionsGiven = 0;
     private int incorrectAnswers = 0;
-
+    private final Scanner scanner = new Scanner(System.in);
 
     public void execute() {
         initializeGame();
         playRound();
-
     }
 
     private void initializeGame() {
@@ -31,75 +29,52 @@ public class Game {
         loadQuestions();
         System.out.println("Done!");
 
-        System.out.println("Welcome to QuizWiz! Please enter your name: ");
-        Scanner scanner = new Scanner(System.in);
+        System.out.print("Welcome to QuizWiz! Please enter your name: ");
         String name = scanner.nextLine();
         player = new Player(name);
 
-        Category[] categories = Category.values();
-        for(int i = 0; i < categories.length - 1; i++){
-            System.out.println((i + 1) + ". " + categories[i]);
-        }
         System.out.println("Welcome " + name + ". Please pick a category: ");
         displayCategories();
-
-        String input = scanner.nextLine();
-        Category category = Category.valueOf(input);
-
-        QuestionBank questionBank = new QuestionBank();
-        Question question = null;
-        switch (input) {
-            case "1" -> question = questionBank.nextQuestion(Category.SPORTS);
-            case "2" -> question = questionBank.nextQuestion(Category.HISTORY);
-            case "3" -> question = questionBank.nextQuestion(Category.MUSIC);
-            default -> System.out.println("Invalid input");
-        }
-
-        System.out.println(question.getQuestionText());
-        List<Choice> options = question.getOptions();
-        for (Choice choice : options) {
-            if (choice.isCorrect()) {
-                System.out.print("Correct - ");
-                System.out.println(choice.getOptionText());
-            } else {
-                System.out.println(choice.getOptionText());
-            }
-
-        }
     }
 
     private void playRound() {
         boolean roundOver = false;
 
-        loadQuestions();
-        welcome();
-
-        Category category = promptForCategory();
-        System.out.println("You have chosen " + category + " - GOOD LUCK!");
-
         while (!roundOver) {
+            Category category = promptForCategory();
+            System.out.println("You have chosen " + category + " - GOOD LUCK!");
+
             Question question = questionBank.nextQuestion(category);
             questionsGiven++;
 
-            String choice = promptForChoice();
+            System.out.println(question.getQuestionText());
+            List<Choice> options = question.getOptions();
+            for (int i = 0; i < options.size(); i++) {
+                System.out.println((i + 1) + ". " + options.get(i).getOptionText());
+            }
 
-            if (question.isChoiceCorrect(choice)) {
+            int choiceIndex = promptForChoice(options.size()) - 1;
+            Choice choice = options.get(choiceIndex);
+
+            if (choice.isCorrect()) {
                 System.out.println("Correct!");
             } else {
                 System.out.println("Incorrect!");
-                incorrectQuestions++;
+                incorrectAnswers++;
             }
 
             roundOver = questionsGiven == 7 || incorrectAnswers == 2;
-            availableCategories.remove(category);
-            reset();
         }
+
+        System.out.println("Round Over! You answered " + questionsGiven + " questions with " + incorrectAnswers + " incorrect answers.");
+        reset();
     }
 
     private void reset() {
         roundCount++;
         questionsGiven = 0;
         incorrectAnswers = 0;
+        availableCategories = new ArrayList<>(questionBank.getQuestionMap().keySet());
     }
 
     private void loadQuestions() {
@@ -107,7 +82,57 @@ public class Game {
         availableCategories = new ArrayList<>(questionBank.getQuestionMap().keySet());
     }
 
-    public void welcome() {
+    private void displayCategories() {
+        Category[] categories = Category.values();
+        for (int i = 0; i < categories.length; i++) {
+            System.out.println((i + 1) + ". " + categories[i]);
+        }
+    }
+
+    private Category promptForCategory() {
+        Category category = null;
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.print("Please enter the number of your desired category: ");
+            String input = scanner.nextLine().trim();
+            if (input.matches("\\d+")) {
+                int categoryIndex = Integer.parseInt(input) - 1;
+                if (categoryIndex >= 0 && categoryIndex < Category.values().length) {
+                    category = Category.values()[categoryIndex];
+                    validInput = true;
+                }
+            }
+            if (!validInput) {
+                System.out.println("Opps that is an invalid input. Please try again.");
+            }
+        }
+
+        return category;
+    }
+
+    private int promptForChoice(int numberOfOptions) {
+        int choice = -1;
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.print("Please enter the number of your choice: ");
+            String input = scanner.nextLine().trim();
+            if (input.matches("\\d+")) {
+                choice = Integer.parseInt(input);
+                if (choice >= 1 && choice <= numberOfOptions) {
+                    validInput = true;
+                }
+            }
+            if (!validInput) {
+                System.out.println("Opps that is an invalid input. Please try again");
+            }
+        }
+
+        return choice;
+    }
+
+    private void welcome() {
         System.out.println("""
 
                                                                                                                                                                       \s
@@ -134,5 +159,3 @@ public class Game {
         System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 }
-
-
