@@ -84,12 +84,15 @@ public class Game {
             }
         }
 
-        System.out.println("Enter your guess: ");
-        String input = scanner.nextLine();
+
 
         while (true) {
-            int choiceIndex = Arrays.asList(choices).indexOf(input.toUpperCase());
-            if (choiceIndex >= 0 && choiceIndex < options.size()) {
+            System.out.println("Enter your guess: ");
+            String input = scanner.nextLine();
+
+            if (Arrays.stream(choices).anyMatch(input::equalsIgnoreCase)) {
+                int choiceIndex = Arrays.asList(choices).indexOf(input.toUpperCase());
+
                 Choice guess = options.get(choiceIndex);
                 return guess.isCorrect();
             } else {
@@ -101,7 +104,7 @@ public class Game {
 
     private void displayCategories() {
         Category[] categories = Category.values();
-        for (int i = 0; i < categories.length; i++) {
+        for (int i = 0; i < categories.length - 1; i++) {
             System.out.println((i + 1) + ". " + categories[i]);
         }
     }
@@ -194,5 +197,15 @@ public class Game {
                               QQQQQQ                                                                                                                                  \s
                 """);
         System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println();
+        System.out.println(">>Rules<<");
+        System.out.println("----------------");
+        System.out.println("-Enter your name");
+        System.out.println("-Pick a category");
+        System.out.println("-2 incorrect answers and the game takes you back to category selection");
+        System.out.println("-If you lose 2 rounds of any category the game ends");
+        System.out.println("-Have fun!");
+        System.out.println("----------------");
+        System.out.println();
     }
 }
