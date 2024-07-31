@@ -23,18 +23,15 @@ public class Game {
         initializeGame();
 
         while (!gameOver) {
-            if (failedRounds > 1) {
-                System.out.println("Sorry, you missed two questions in two different rounds! Please try again.");
-                break;
-            }
-
-            gameOver = roundCount == 3;
             playRound();
             reset();
             roundCount++;
+            gameOver = roundCount == 3 || failedRounds >= 2;
         }
 
-        if (failedRounds < 2) {
+        if (failedRounds >= 2) {
+            System.out.println("Sorry, you missed two questions in two different rounds! Please try again.");
+        } else {
             System.out.println("You win!");
             System.out.println("Continue?");
         }
@@ -71,6 +68,7 @@ public class Game {
             e.printStackTrace();
         }
     }
+
 
     private Boolean promptForChoice(Question question) {
         clearConsole();
@@ -140,8 +138,10 @@ public class Game {
 
         Category category = promptForCategory();
         System.out.println("You have chosen " + category + " - Give it your best shot, you've got this!");
+        System.out.println("***************************************************************************");
 
         while (!roundOver) {
+            System.out.println("\nPLAYER - " + player.getName() + " | QUESTION - " + (questionsGiven + 1) + " | INCORRECT - " + incorrectRoundAnswers + "/2 | CURRENT ROUND - " + roundCount + "/3 | FAILED ROUNDS " + failedRounds + "/2\n");
             Question question = questionBank.nextQuestion(category);
             askQuestion(question);
             questionsGiven++;
