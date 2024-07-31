@@ -1,12 +1,11 @@
 package gov.trivia.controller;
 
-import com.apps.util.Console;
 import gov.trivia.model.*;
 import gov.trivia.model.Category;
 
 import java.util.*;
+import java.util.concurrent.*;
 
-// All the logic for running the game
 public class Game {
     private Player player;
     private QuestionBank questionBank;
@@ -15,6 +14,8 @@ public class Game {
     private int questionsGiven = 0;
     private int incorrectRoundAnswers = 0;
     private int failedRounds = 0;
+    private final Scanner scanner = new Scanner(System.in);
+    private final long QUESTION_TIME_LIMIT = 20000L; // 20 seconds
 
     public void execute() {
         boolean gameOver = false;
@@ -23,15 +24,18 @@ public class Game {
         initializeGame();
 
         while (!gameOver) {
+            if (failedRounds > 1) {
+                System.out.println("You lose!");
+                break;
+            }
+
+            gameOver = roundCount == 3;
             playRound();
             reset();
             roundCount++;
-            gameOver = roundCount == 3 || failedRounds >= 2;
         }
 
-        if (failedRounds >= 2) {
-            System.out.println("Sorry, you missed two questions in two different rounds! Please try again.");
-        } else {
+        if (failedRounds < 2) {
             System.out.println("You win!");
             System.out.println("Continue?");
         }
@@ -40,10 +44,9 @@ public class Game {
     private void initializeGame() {
         System.out.println("Loading questions...");
         loadQuestions();
-        System.out.println("Let's Play Some Trivia!");
+        System.out.println("Let’s get started!");
 
         System.out.println("Welcome to QuizWiz! Please enter your name: ");
-        Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
         player = new Player(name);
 
@@ -56,92 +59,73 @@ public class Game {
         System.out.println("-".repeat(questionText.length()));
     }
 
-    private void clearConsole() {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     private Boolean promptForChoice(Question question) {
-        clearConsole();
-        Scanner scanner = new Scanner(System.in);
-
         List<Choice> options = question.getOptions();
         String[] choices = {"A", "B", "C", "D"};
         for (int i = 0; i < choices.length; i++) {
-            if (i < options.size()) {
-                System.out.println(choices[i] + " - " + options.get(i).getOptionText());
-            }
+            System.out.println(choices[i] + " - " + options.get(i).getOptionText());
         }
 
+        System.out.println("Enter your guess (You have 20 seconds!): ");
 
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(() -> scanner.nextLine());
+        String input = "";
+
+        try {
+            input = future.get(20, TimeUnit.SECONDS);
+        } catch (TimeoutException e) {
+            System.out.println("Time's up!");
+            future.cancel(true);
+            return false;
+        } catch (Exception e) {
+            future.cancel(true);
+            return false;
+        } finally {
+            executor.shutdown();
+        }
 
         while (true) {
-            System.out.println("Enter your guess: ");
-            String input = scanner.nextLine();
-
             if (Arrays.stream(choices).anyMatch(input::equalsIgnoreCase)) {
                 int choiceIndex = Arrays.asList(choices).indexOf(input.toUpperCase());
-
                 Choice guess = options.get(choiceIndex);
+
                 return guess.isCorrect();
             } else {
-                System.out.println("Invalid input. Please enter A, B, C, or D");
-                input = scanner.nextLine();
+                System.out.println("Your input is invalid. Please enter A, B, C, or D.");
+                input = scanner.nextLine().trim();
             }
         }
     }
 
     private void displayCategories() {
         Category[] categories = Category.values();
-        for (int i = 0; i < categories.length - 1; i++) {
+        for (int i = 0; i < categories.length; i++) {
             System.out.println((i + 1) + ". " + categories[i]);
         }
     }
 
     private Category promptForCategory() {
-        clearConsole();
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
+        System.out.println("Hello " + player.getName() + ". Please pick a category 1-3: ");
         displayCategories();
 
         String input = scanner.nextLine();
-        int categoryIndex = -1;
-        while (true) {
-            try {
-                categoryIndex = Integer.parseInt(input);
-                if (categoryIndex >= 1 && categoryIndex <= Category.values().length) {
-                    break;
-                } else {
-                    System.out.println("Invalid input. Please enter a number between 1 and " + Category.values().length);
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number between 1 and " + Category.values().length);
-            }
+
+        while (!input.matches("\\d+") || Integer.parseInt(input) < 1 || Integer.parseInt(input) > Category.values().length) {
+            System.out.println("Invalid input. Please enter a valid category number.");
             input = scanner.nextLine();
         }
 
-        return Category.fromId(categoryIndex);
+        return Category.fromId(Integer.parseInt(input));
     }
 
     private void playRound() {
         boolean roundOver = false;
 
         Category category = promptForCategory();
-        System.out.println("You have chosen " + category + " - Give it your best shot, you've got this!");
-        System.out.println("***************************************************************************");
+        System.out.println("You have chosen " + category + " -- Good luck, you’ve got this!");
 
         while (!roundOver) {
-            System.out.println("\nPLAYER - " + player.getName() + " | QUESTION - " + (questionsGiven + 1) + " | INCORRECT - " + incorrectRoundAnswers + "/2 | CURRENT ROUND - " + roundCount + "/3 | FAILED ROUNDS " + failedRounds + "/2\n");
             Question question = questionBank.nextQuestion(category);
             askQuestion(question);
             questionsGiven++;
@@ -159,6 +143,10 @@ public class Game {
 
             if (incorrectRoundAnswers == 2) {
                 failedRounds++;
+                if (failedRounds > 1) {
+                    System.out.println("You missed 2 questions in two different categories. Game over!");
+                    break;
+                }
             }
         }
     }
@@ -174,7 +162,6 @@ public class Game {
 
     public void welcome() {
         System.out.println("""
-
                                                                                                                                                                       \s
                                                                                                                                                                       \s
                      QQQQQQQQQ     UUUUUUUU     UUUUUUUUIIIIIIIIIIZZZZZZZZZZZZZZZZZZZ     WWWWWWWW                           WWWWWWWWIIIIIIIIIIZZZZZZZZZZZZZZZZZZZ    \s
@@ -197,15 +184,5 @@ public class Game {
                               QQQQQQ                                                                                                                                  \s
                 """);
         System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println();
-        System.out.println(">>Rules<<");
-        System.out.println("----------------");
-        System.out.println("-Enter your name");
-        System.out.println("-Pick a category");
-        System.out.println("-2 incorrect answers and the game takes you back to category selection");
-        System.out.println("-If you lose 2 rounds of any category the game ends");
-        System.out.println("-Have fun!");
-        System.out.println("----------------");
-        System.out.println();
     }
 }
