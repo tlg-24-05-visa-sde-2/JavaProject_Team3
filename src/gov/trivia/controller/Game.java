@@ -1,13 +1,13 @@
 package gov.trivia.controller;
 
-import com.apps.util.Console;
 import gov.trivia.model.*;
 import gov.trivia.model.Category;
+import com.apps.util.SplashApp;
 
 import java.util.*;
+import java.util.concurrent.*;
 
-// all the logic for running the game
-public class Game {
+public class Game implements SplashApp {
     private Player player;
     private QuestionBank questionBank;
 
@@ -15,7 +15,8 @@ public class Game {
     private int questionsGiven = 0;
     private int incorrectRoundAnswers = 0;
     private int failedRounds = 0;
-
+    private final Scanner scanner = new Scanner(System.in);
+    private final long QUESTION_TIME_LIMIT = 20000L; // 20 seconds
 
     public void execute() {
         boolean gameOver = false;
@@ -25,7 +26,7 @@ public class Game {
 
         while (!gameOver) {
             if (failedRounds > 1) {
-                System.out.println("You lose!");
+                System.out.println();
                 break;
             }
 
@@ -36,18 +37,17 @@ public class Game {
         }
 
         if (failedRounds < 2) {
-            System.out.println("You win!");
-            System.out.println("Continue?");
+            System.out.println("Well done! You’ve won!");
+            System.out.println("Do you wish to continue?");
         }
     }
 
     private void initializeGame() {
         System.out.println("Loading questions...");
         loadQuestions();
-        System.out.println("Done!");
+        System.out.println("Let’s get started!");
 
         System.out.println("Welcome to QuizWiz! Please enter your name: ");
-        Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
         player = new Player(name);
 
@@ -61,46 +61,61 @@ public class Game {
     }
 
     private Boolean promptForChoice(Question question) {
-        Scanner scanner = new Scanner(System.in);
-
         List<Choice> options = question.getOptions();
         String[] choices = {"A", "B", "C", "D"};
         for (int i = 0; i < choices.length; i++) {
             System.out.println(choices[i] + " - " + options.get(i).getOptionText());
         }
 
+        System.out.println("Enter your guess (You have 20 seconds!): ");
 
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(() -> scanner.nextLine());
+        String input = "";
+
+        try {
+            input = future.get(20, TimeUnit.SECONDS);
+        } catch (TimeoutException e) {
+            System.out.println("Time's up!");
+            future.cancel(true);
+            return false;
+        } catch (Exception e) {
+            future.cancel(true);
+            return false;
+        } finally {
+            executor.shutdown();
+        }
 
         while (true) {
-            System.out.println("Enter your guess: ");
-            String input = scanner.nextLine();
-
             if (Arrays.stream(choices).anyMatch(input::equalsIgnoreCase)) {
                 int choiceIndex = Arrays.asList(choices).indexOf(input.toUpperCase());
                 Choice guess = options.get(choiceIndex);
 
                 return guess.isCorrect();
             } else {
-                System.out.println("Invalid input. Please enter A, B, C, or D");
+                System.out.println("Your input is invalid. Please enter A, B, C, or D.");
+                input = scanner.nextLine().trim();
             }
         }
-
     }
 
     private void displayCategories() {
         Category[] categories = Category.values();
-        for (int i = 0; i < categories.length - 1; i++) {
+        for (int i = 0; i < categories.length; i++) {
             System.out.println((i + 1) + ". " + categories[i]);
         }
     }
-
+        // updated promptForCategory method---will change 1-3 once easter egg is implemented.
     private Category promptForCategory() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Hello " + player.getName() + ". Please pick a category: ");
+        System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
         displayCategories();
 
         String input = scanner.nextLine();
+
+        while (!input.matches("\\d+") || Integer.parseInt(input) < 1 || Integer.parseInt(input) > Category.values().length) {
+            System.out.println("Invalid input. Please enter a valid category number.");
+            input = scanner.nextLine();
+        }
 
         return Category.fromId(Integer.parseInt(input));
     }
@@ -109,7 +124,7 @@ public class Game {
         boolean roundOver = false;
 
         Category category = promptForCategory();
-        System.out.println("You have chosen " + category + " - GOOD LUCK!");
+        System.out.println("You have chosen " + category + " -- Good luck, you’ve got this!");
 
         while (!roundOver) {
             Question question = questionBank.nextQuestion(category);
@@ -129,6 +144,10 @@ public class Game {
 
             if (incorrectRoundAnswers == 2) {
                 failedRounds++;
+                if (failedRounds > 1) {
+                    System.out.println("You missed 2 questions in two different categories. Please try again!");
+                    break;
+                }
             }
         }
     }
@@ -142,9 +161,38 @@ public class Game {
         questionBank = new QuestionBank();
     }
 
+    @Override
+    public void start() {
+        // SplashApp didn't work from the lib
+    }
+
+    @Override
+    public void welcome(String... messages) throws IllegalArgumentException {
+        for (String message : messages) {
+            System.out.println(message);
+            try {
+                Thread.sleep(DEFAULT_PAUSE);
+            } catch (InterruptedException e) {
+                throw new IllegalArgumentException("Error initializing application", e);
+            }
+        }
+    }
+
+    private void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void welcome() {
         System.out.println("""
-
                                                                                                                                                                       \s
                                                                                                                                                                       \s
                      QQQQQQQQQ     UUUUUUUU     UUUUUUUUIIIIIIIIIIZZZZZZZZZZZZZZZZZZZ     WWWWWWWW                           WWWWWWWWIIIIIIIIIIZZZZZZZZZZZZZZZZZZZ    \s
@@ -167,17 +215,5 @@ public class Game {
                               QQQQQQ                                                                                                                                  \s
                 """);
         System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println();
-        System.out.println(">>Rules<<");
-        System.out.println("----------------");
-        System.out.println("-Enter your name");
-        System.out.println("-Pick a category");
-        System.out.println("-2 incorrect answers and the game takes you back to category selection");
-        System.out.println("-If you lose 2 rounds of any category the game ends");
-        System.out.println("-Have fun!");
-        System.out.println("----------------");
-        System.out.println();
     }
 }
-
-
