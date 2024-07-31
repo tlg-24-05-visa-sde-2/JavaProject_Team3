@@ -13,5 +13,7 @@ public class QuestionBank {
         return questionMap.get(category).remove(0);
     }
 
-
+    public Map<Category, List<Question>> getQuestionMap() {
+        return questionMap;
+    }
 }
