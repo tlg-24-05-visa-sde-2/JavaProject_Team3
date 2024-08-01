@@ -191,7 +191,7 @@ public class Game implements SplashApp {
         }
     }
 
-    public void welcome() {
+      public void welcome() {
         System.out.println("""
                                                                                                                                                                       \s
                                                                                                                                                                       \s
