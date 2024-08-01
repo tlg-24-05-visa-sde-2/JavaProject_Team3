@@ -1,5 +1,8 @@
 package gov.trivia.controller;
 
+
+import com.apps.util.Console;
+import com.apps.util.Prompter;
 import gov.trivia.model.*;
 import gov.trivia.model.Category;
 import com.apps.util.SplashApp;
@@ -21,7 +24,7 @@ public class Game implements SplashApp {
     public void execute() {
         boolean gameOver = false;
 
-        welcome();
+        //welcome();
         initializeGame();
 
         while (!gameOver) {
@@ -43,12 +46,18 @@ public class Game implements SplashApp {
     }
 
     private void initializeGame() {
+        welcome();
         System.out.println("Loading questions...");
+        Console.pause(1500);
         loadQuestions();
-        System.out.println("Let’s get started!");
+
+        System.out.println("Done!");
+        Console.pause(1300);
 
         System.out.println("Welcome to QuizWiz! Please enter your name: ");
         String name = scanner.nextLine();
+        Console.pause(1200);
+        Console.blankLines(1);
         player = new Player(name);
 
         questionBank = new QuestionBank();
@@ -111,6 +120,8 @@ public class Game implements SplashApp {
         displayCategories();
 
         String input = scanner.nextLine();
+        Console.pause(1000);
+        Console.blankLines(1);
 
         while (!input.matches("\\d+") || Integer.parseInt(input) < 1 || Integer.parseInt(input) > Category.values().length) {
             System.out.println("Invalid input. Please enter a valid category number.");
@@ -122,9 +133,14 @@ public class Game implements SplashApp {
 
     private void playRound() {
         boolean roundOver = false;
+        Scanner scanner = new Scanner(System.in);
 
         Category category = promptForCategory();
+      
         System.out.println("You have chosen " + category + " -- Good luck, you’ve got this!");
+        Prompter prompter = new Prompter(scanner);
+        prompter.prompt("Press [Enter] to get started...");
+        Console.clear();
 
         while (!roundOver) {
             Question question = questionBank.nextQuestion(category);
@@ -161,59 +177,31 @@ public class Game implements SplashApp {
         questionBank = new QuestionBank();
     }
 
-    @Override
-    public void start() {
-        // SplashApp didn't work from the lib
-    }
 
-    @Override
-    public void welcome(String... messages) throws IllegalArgumentException {
-        for (String message : messages) {
-            System.out.println(message);
-            try {
-                Thread.sleep(DEFAULT_PAUSE);
-            } catch (InterruptedException e) {
-                throw new IllegalArgumentException("Error initializing application", e);
-            }
-        }
-    }
-
-    private void clearConsole() {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-      public void welcome() {
-        System.out.println("""
-                                                                                                                                                                      \s
-                                                                                                                                                                      \s
-                     QQQQQQQQQ     UUUUUUUU     UUUUUUUUIIIIIIIIIIZZZZZZZZZZZZZZZZZZZ     WWWWWWWW                           WWWWWWWWIIIIIIIIIIZZZZZZZZZZZZZZZZZZZ    \s
-                   QQ:::::::::QQ   U::::::U     U::::::UI::::::::IZ:::::::::::::::::Z     W::::::W                           W::::::WI::::::::IZ:::::::::::::::::Z    \s
-                 QQ:::::::::::::QQ U::::::U     U::::::UI::::::::IZ:::::::::::::::::Z     W::::::W                           W::::::WI::::::::IZ:::::::::::::::::Z    \s
-                Q:::::::QQQ:::::::QUU:::::U     U:::::UUII::::::IIZ:::ZZZZZZZZ:::::Z      W::::::W                           W::::::WII::::::IIZ:::ZZZZZZZZ:::::Z     \s
-                Q::::::O   Q::::::Q U:::::U     U:::::U   I::::I  ZZZZZ     Z:::::Z        W:::::W           WWWWW           W:::::W   I::::I  ZZZZZ     Z:::::Z      \s
-                Q:::::O     Q:::::Q U:::::D     D:::::U   I::::I          Z:::::Z           W:::::W         W:::::W         W:::::W    I::::I          Z:::::Z        \s
-                Q:::::O     Q:::::Q U:::::D     D:::::U   I::::I         Z:::::Z             W:::::W       W:::::::W       W:::::W     I::::I         Z:::::Z         \s
-                Q:::::O     Q:::::Q U:::::D     D:::::U   I::::I        Z:::::Z               W:::::W     W:::::::::W     W:::::W      I::::I        Z:::::Z          \s
-                Q:::::O     Q:::::Q U:::::D     D:::::U   I::::I       Z:::::Z                 W:::::W   W:::::W:::::W   W:::::W       I::::I       Z:::::Z           \s
-                Q:::::O     Q:::::Q U:::::D     D:::::U   I::::I      Z:::::Z                   W:::::W W:::::W W:::::W W:::::W        I::::I      Z:::::Z            \s
-                Q:::::O  QQQQ:::::Q U:::::D     D:::::U   I::::I     Z:::::Z                     W:::::W:::::W   W:::::W:::::W         I::::I     Z:::::Z             \s
-                Q::::::O Q::::::::Q U::::::U   U::::::U   I::::I  ZZZ:::::Z     ZZZZZ             W:::::::::W     W:::::::::W          I::::I  ZZZ:::::Z     ZZZZZ    \s
-                Q:::::::QQ::::::::Q U:::::::UUU:::::::U II::::::IIZ::::::ZZZZZZZZ:::Z              W:::::::W       W:::::::W         II::::::IIZ::::::ZZZZZZZZ:::Z    \s
-                 QQ::::::::::::::Q   UU:::::::::::::UU  I::::::::IZ:::::::::::::::::Z               W:::::W         W:::::W          I::::::::IZ:::::::::::::::::Z    \s
-                   QQ:::::::::::Q      UU:::::::::UU    I::::::::IZ:::::::::::::::::Z                W:::W           W:::W           I::::::::IZ:::::::::::::::::Z    \s
-                     QQQQQQQQ::::QQ      UUUUUUUUU      IIIIIIIIIIZZZZZZZZZZZZZZZZZZZ                 WWW             WWW            IIIIIIIIIIZZZZZZZZZZZZZZZZZZZ    \s
-                             Q:::::Q                                                                                                                                  \s
-                              QQQQQQ                                                                                                                                  \s
+    public void welcome() {
+        System.out.println("""                        
+                
+               
+                ________        .__          __      __.__       \s
+                \\_____  \\  __ __|__|_______ /  \\    /  \\__|_______
+                 /  / \\  \\|  |  \\  \\___   / \\   \\/\\/   /  \\___   /
+                /   \\_/.  \\  |  /  |/    /   \\        /|  |/    /\s
+                \\_____\\ \\_/____/|__/_____ \\   \\__/\\  / |__/_____ \\
+                       \\__>              \\/        \\/           \\/
+                
+                
                 """);
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------");
+        System.out.println();
+        System.out.println(">>Rules<<");
+        System.out.println("----------------");
+        System.out.println("-Enter your name");
+        System.out.println("-Pick a category");
+        System.out.println("-2 incorrect answers and the game takes you back to category selection");
+        System.out.println("-If you lose 2 rounds of any category the game ends");
+        System.out.println("-Have fun!");
+        System.out.println("----------------");
+        System.out.println();
+
     }
 }
