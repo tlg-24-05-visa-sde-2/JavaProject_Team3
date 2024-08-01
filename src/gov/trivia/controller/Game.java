@@ -2,11 +2,12 @@ package gov.trivia.controller;
 
 import gov.trivia.model.*;
 import gov.trivia.model.Category;
+import com.apps.util.SplashApp;
 
 import java.util.*;
 import java.util.concurrent.*;
 
-public class Game {
+public class Game implements SplashApp {
     private Player player;
     private QuestionBank questionBank;
 
@@ -25,7 +26,7 @@ public class Game {
 
         while (!gameOver) {
             if (failedRounds > 1) {
-                System.out.println("You lose!");
+                System.out.println();
                 break;
             }
 
@@ -36,8 +37,8 @@ public class Game {
         }
 
         if (failedRounds < 2) {
-            System.out.println("You win!");
-            System.out.println("Continue?");
+            System.out.println("Well done! You’ve won!");
+            System.out.println("Do you wish to continue?");
         }
     }
 
@@ -104,9 +105,9 @@ public class Game {
             System.out.println((i + 1) + ". " + categories[i]);
         }
     }
-
+        // updated promptForCategory method---will change 1-3 once easter egg is implemented.
     private Category promptForCategory() {
-        System.out.println("Hello " + player.getName() + ". Please pick a category 1-3: ");
+        System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
         displayCategories();
 
         String input = scanner.nextLine();
@@ -144,7 +145,7 @@ public class Game {
             if (incorrectRoundAnswers == 2) {
                 failedRounds++;
                 if (failedRounds > 1) {
-                    System.out.println("You missed 2 questions in two different categories. Game over!");
+                    System.out.println("You missed 2 questions in two different categories. Please try again!");
                     break;
                 }
             }
@@ -160,7 +161,37 @@ public class Game {
         questionBank = new QuestionBank();
     }
 
-    public void welcome() {
+    @Override
+    public void start() {
+        // SplashApp didn't work from the lib
+    }
+
+    @Override
+    public void welcome(String... messages) throws IllegalArgumentException {
+        for (String message : messages) {
+            System.out.println(message);
+            try {
+                Thread.sleep(DEFAULT_PAUSE);
+            } catch (InterruptedException e) {
+                throw new IllegalArgumentException("Error initializing application", e);
+            }
+        }
+    }
+
+    private void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+      public void welcome() {
         System.out.println("""
                                                                                                                                                                       \s
                                                                                                                                                                       \s
