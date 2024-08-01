@@ -1,10 +1,8 @@
 package gov.trivia.controller;
 
-
 import com.apps.util.Console;
 import com.apps.util.Prompter;
 import gov.trivia.model.*;
-import gov.trivia.model.Category;
 import com.apps.util.SplashApp;
 
 import java.util.*;
@@ -24,7 +22,6 @@ public class Game {
     public void execute() {
         boolean gameOver = false;
 
-        //welcome();
         initializeGame();
 
         while (!gameOver) {
@@ -122,7 +119,7 @@ public class Game {
             System.out.println((i + 1) + ". " + categories[i]);
         }
     }
-        // updated promptForCategory method---will change 1-3 once easter egg is implemented.
+
     private Category promptForCategory() {
         System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
         displayCategories();
@@ -184,18 +181,61 @@ public class Game {
         questionBank = new QuestionBank();
     }
 
+    public void welcome(String... messages) throws IllegalArgumentException {
+        for (String message : messages) {
+            System.out.println(message);
+            try {
+                Thread.sleep(DEFAULT_PAUSE);
+            } catch (InterruptedException e) {
+                throw new IllegalArgumentException("Error initializing application", e);
+            }
+        }
+    }
+
+    private void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleUserChoice(int choice) {
+        switch (choice) {
+            case 1:
+                clearConsole();
+                break;
+            case 2:
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                System.out.println("Press Enter to continue...");
+                scanner.nextLine();
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                break;
+        }
+    }
 
     public void welcome() {
         System.out.println("""                        
-                
                
-                ________        .__          __      __.__       \s
+                ________        .__          __      __.__       
                 \\_____  \\  __ __|__|_______ /  \\    /  \\__|_______
                  /  / \\  \\|  |  \\  \\___   / \\   \\/\\/   /  \\___   /
-                /   \\_/.  \\  |  /  |/    /   \\        /|  |/    /\s
+                /   \\_/.  \\  |  /  |/    /   \\        /|  |/    /
                 \\_____\\ \\_/____/|__/_____ \\   \\__/\\  / |__/_____ \\
                        \\__>              \\/        \\/           \\/
-                
                 
                 """);
         System.out.println("---------------------------------------------------------");
@@ -209,6 +249,5 @@ public class Game {
         System.out.println("-Have fun!");
         System.out.println("----------------");
         System.out.println();
-
     }
 }
