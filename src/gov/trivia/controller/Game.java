@@ -10,7 +10,7 @@ import com.apps.util.SplashApp;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class Game implements SplashApp {
+public class Game {
     private Player player;
     private QuestionBank questionBank;
 
@@ -53,9 +53,17 @@ public class Game implements SplashApp {
 
         System.out.println("Done!");
         Console.pause(1300);
+        String name = null;
+        while(true){
+            System.out.println("Welcome to QuizWiz! Please enter your name: ");
+            name = scanner.nextLine();
+            if(name.matches("^[a-zA-Z]+$")) {
+                break;
+            } else {
+                System.out.println("Please enter a valid name: ");
+            }
+        }
 
-        System.out.println("Welcome to QuizWiz! Please enter your name: ");
-        String name = scanner.nextLine();
         Console.pause(1200);
         Console.blankLines(1);
         player = new Player(name);
@@ -80,7 +88,7 @@ public class Game implements SplashApp {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<String> future = executor.submit(() -> scanner.nextLine());
-        String input = "";
+        String input;
 
         try {
             input = future.get(20, TimeUnit.SECONDS);
@@ -133,7 +141,6 @@ public class Game implements SplashApp {
 
     private void playRound() {
         boolean roundOver = false;
-        Scanner scanner = new Scanner(System.in);
 
         Category category = promptForCategory();
       

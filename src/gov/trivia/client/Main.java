@@ -1,5 +1,6 @@
 package gov.trivia.client;
 
+
 import gov.trivia.controller.Game;
 import gov.trivia.model.Category;
 
