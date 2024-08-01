@@ -54,6 +54,8 @@ public class Game implements SplashApp {
         questionBank = new QuestionBank();
     }
 
+
+    // let's consider changing this method name because the question is being presented and not asked.
     private void askQuestion(Question question) {
         String questionText = question.getQuestionText();
         System.out.println(questionText);
@@ -69,6 +71,8 @@ public class Game implements SplashApp {
 
         System.out.println("Enter your guess (You have 20 seconds!): ");
 
+        // thread.sleep may be more useful since it waits for the user with a time
+        // and executorservice with future does not, but ESF is more modern and handles returning your future object well.
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<String> future = executor.submit(() -> scanner.nextLine());
         String input = "";
@@ -105,7 +109,7 @@ public class Game implements SplashApp {
             System.out.println((i + 1) + ". " + categories[i]);
         }
     }
-        // updated promptForCategory method---will change 1-3 once easter egg is implemented.
+
     private Category promptForCategory() {
         System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
         displayCategories();
@@ -191,7 +195,29 @@ public class Game implements SplashApp {
         }
     }
 
-      public void welcome() {
+    private void handleUserChoice(int choice) {
+        switch (choice) {
+            case 1:
+                clearConsole();
+                break;
+            case 2:
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                System.out.println("Press Enter to continue...");
+                scanner.nextLine();
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                break;
+        }
+    }
+
+    public void welcome() {
         System.out.println("""
                                                                                                                                                                       \s
                                                                                                                                                                       \s
@@ -215,5 +241,10 @@ public class Game implements SplashApp {
                               QQQQQQ                                                                                                                                  \s
                 """);
         System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
+
+        System.out.println("Choose an option: 1. Clear Screen 2. Pause Screen 3. Enter to Continue");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        handleUserChoice(choice);
     }
 }
