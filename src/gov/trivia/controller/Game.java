@@ -6,6 +6,7 @@ import gov.trivia.model.*;
 import com.apps.util.SplashApp;
 import static com.apps.util.Console.*;
 
+import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -251,26 +252,33 @@ public class Game {
     }
 
     public void welcome() {
-        System.out.println("""                        
-               
-                ________        .__          __      __.__       
-                \\_____  \\  __ __|__|_______ /  \\    /  \\__|_______
-                 /  / \\  \\|  |  \\  \\___   / \\   \\/\\/   /  \\___   /
-                /   \\_/.  \\  |  /  |/    /   \\        /|  |/    /
-                \\_____\\ \\_/____/|__/_____ \\   \\__/\\  / |__/_____ \\
-                       \\__>              \\/        \\/           \\/
-                
-                """);
-        System.out.println("---------------------------------------------------------");
-        System.out.println();
-        System.out.println(">>Rules<<");
-        System.out.println("----------------");
-        System.out.println("-Enter your name");
-        System.out.println("-Pick a category");
-        System.out.println("-2 incorrect answers and the game takes you back to category selection");
-        System.out.println("-If you lose 2 rounds of any category the game ends");
-        System.out.println("-Have fun!");
-        System.out.println("----------------");
-        System.out.println();
+        //Files.readString("resources/banner.txt");
+
+
+
+
+
+
+//        System.out.println("""
+//
+//                ________        .__          __      __.__
+//                \\_____  \\  __ __|__|_______ /  \\    /  \\__|_______
+//                 /  / \\  \\|  |  \\  \\___   / \\   \\/\\/   /  \\___   /
+//                /   \\_/.  \\  |  /  |/    /   \\        /|  |/    /
+//                \\_____\\ \\_/____/|__/_____ \\   \\__/\\  / |__/_____ \\
+//                       \\__>              \\/        \\/           \\/
+//
+//                """);
+//        System.out.println("---------------------------------------------------------");
+//        System.out.println();
+//        System.out.println(">>Rules<<");
+//        System.out.println("----------------");
+//        System.out.println("-Enter your name");
+//        System.out.println("-Pick a category");
+//        System.out.println("-2 incorrect answers and the game takes you back to category selection");
+//        System.out.println("-If you lose 2 rounds of any category the game ends");
+//        System.out.println("-Have fun!");
+//        System.out.println("----------------");
+//        System.out.println();
     }
 }
