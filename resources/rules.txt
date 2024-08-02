@@ -1,0 +1,37 @@
+﻿* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                     ____                                                *
+*                  .'* *.'                                                *
+*               __/_*_*(_                                                 *
+*              / _______ \                                                *
+*             _\_)/___\(_/_                                               *
+*            / _((\- -/))_ \                                              *
+*            \ \())(-)(()/ /                                              *
+*             ' \(((()))/ '                                               *
+*            / ' \)).))/ ' \                                              *
+*           / _ \ - | - /_  \   __________       .__                      *
+*          (   ( .;''';. .'  )  \   ---   \_  __ |  |   ____   ______     *
+*          _\"__ /    )\ __"/_  |       _/  | |  \  | _/ __ \ /  ___/     *
+*            \/  \   ' /  \/    |    |   \  |_|  |  |_\  ___/ \___ \      *
+*             .'  '...' ' )     |____|_  /_____/ |____/\___  >____  >     *
+*              / /  |  \ \             \/                  \/     \/      *
+*             / .   .   . \                                               *
+*            /   .     .   \                                              *
+*           /   /   |   \   \                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+>>Welcome to Quiz Wiz! Here is how to play<<
+--------------------------------------------
+1. Choose a Category
+- Pick from Sports, History, and Music. Choose wisely!
+
+2. Beat the Clock
+- Each question has a 30-second timer. Answer quickly!
+
+3. Stay in the Game
+- Miss two questions in one category, and you will move to another category. Miss two questions in two different categories, and the game ends.
+
+4. Unlock the Bonus Round
+- Answer at least 5 out of 7 questions correctly in all three categories to unlock the bonus round: Jayisms.
+
+"Remember, a quick wit is the best spell in your arsenal. Good luck!"
+---------------------------------------------------------------------

@@ -6,7 +6,13 @@ import gov.trivia.model.*;
 import com.apps.util.SplashApp;
 import static com.apps.util.Console.*;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -49,15 +55,16 @@ public class Game {
 
     private void initializeGame() {
         welcome();
-        System.out.println("Loading questions...");
-        Console.pause(1500);
+        blankLines(1);
+        System.out.println("\nConjuring questions...\n");
+        pause(1500);
         loadQuestions();
 
         System.out.println("Done!");
-        Console.pause(1300);
+        pause(1300);
+        blankLines(1);
 
         String name = prompter.prompt("Welcome to QuizWiz! Please enter your name: ", "^[a-zA-Z]+$","\nPlease enter a valid name\n");
-
 
 
 //        String name = null;
@@ -157,6 +164,12 @@ public class Game {
 
     private Category promptForCategory() {
 //        System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
+        clear();
+        displayRules();
+        blankLines(1);
+        prompter.prompt("\nPress [enter] to continue: ");
+        pause(1500);
+        clear();
         displayCategories();
 
         blankLines(1);
@@ -277,33 +290,28 @@ public class Game {
     }
 
     public void welcome() {
-        //Files.readString("resources/banner.txt");
+        try(FileReader reader = new FileReader("resources/banner.txt");){
+            int data = reader.read();
+            while(data != -1) {
+                System.out.print((char) data);
+                data = reader.read();
+            }
+            reader.close();
+        } catch(IOException e){
+                e.printStackTrace();
+        }
+    }
 
-
-
-
-
-
-//        System.out.println("""
-//
-//                ________        .__          __      __.__
-//                \\_____  \\  __ __|__|_______ /  \\    /  \\__|_______
-//                 /  / \\  \\|  |  \\  \\___   / \\   \\/\\/   /  \\___   /
-//                /   \\_/.  \\  |  /  |/    /   \\        /|  |/    /
-//                \\_____\\ \\_/____/|__/_____ \\   \\__/\\  / |__/_____ \\
-//                       \\__>              \\/        \\/           \\/
-//
-//                """);
-//        System.out.println("---------------------------------------------------------");
-//        System.out.println();
-//        System.out.println(">>Rules<<");
-//        System.out.println("----------------");
-//        System.out.println("-Enter your name");
-//        System.out.println("-Pick a category");
-//        System.out.println("-2 incorrect answers and the game takes you back to category selection");
-//        System.out.println("-If you lose 2 rounds of any category the game ends");
-//        System.out.println("-Have fun!");
-//        System.out.println("----------------");
-//        System.out.println();
+    public void displayRules() {
+        try(FileReader reader = new FileReader("resources/rules.txt");){
+            int data = reader.read();
+            while(data != -1) {
+                System.out.print((char) data);
+                data = reader.read();
+            }
+            reader.close();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
     }
 }
