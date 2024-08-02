@@ -84,40 +84,50 @@ public class Game {
     Boolean promptForChoice(Question question) {
         List<Choice> options = question.getOptions();
         String[] choices = {"A", "B", "C", "D"};
-        for (int i = 0; i < choices.length; i++) {
-            System.out.println(choices[i] + " - " + options.get(i).getOptionText());
-        }
-
-        System.out.println("Enter your guess (You have 30 seconds!): ");
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Future<String> future = executor.submit(() -> scanner.nextLine());
-        String input;
+        boolean isCorrect = false;
 
-        try {
-            input = future.get(30, TimeUnit.SECONDS);
-        } catch (TimeoutException e) {
-            System.out.println("Time's up!");
-            future.cancel(true);
-            return false;
-        } catch (Exception e) {
-            future.cancel(true);
-            return false;
-        } finally {
-            executor.shutdown();
-        }
+        while (!isCorrect) {
+            for (int i = 0; i < choices.length; i++) {
+                System.out.println(choices[i] + " - " + options.get(i).getOptionText());
+            }
 
-        while (true) {
-            if (Arrays.stream(choices).anyMatch(input::equalsIgnoreCase)) {
+            System.out.println("Enter your guess (You have 30 seconds!): ");
+
+            Future<String> future = executor.submit(() -> scanner.nextLine());
+
+            String input;
+
+            try {
+                input = future.get(30, TimeUnit.SECONDS);
+            } catch (TimeoutException e) {
+                System.out.println("Time's up!");
+                future.cancel(true);
+                return false;
+            } catch (Exception e) {
+                future.cancel(true);
+                return false;
+            }
+
+            if (input != null && Arrays.stream(choices).anyMatch(input::equalsIgnoreCase)) {
                 int choiceIndex = Arrays.asList(choices).indexOf(input.toUpperCase());
                 Choice guess = options.get(choiceIndex);
 
-                return guess.isCorrect();
+                if (guess.isCorrect()) {
+                    isCorrect = true;
+                    executor.shutdown();
+                    return true;
+                } else {
+                    System.out.println("Incorrect answer!");
+                }
             } else {
                 System.out.println("Your input is invalid. Please enter A, B, C, or D.");
-                input = scanner.nextLine().trim();
             }
         }
+
+        executor.shutdown();
+        return false;
     }
 
     private void displayCategories() {
