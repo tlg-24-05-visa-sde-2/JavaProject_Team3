@@ -13,49 +13,32 @@ public class QuestionLoader {
         Map<Category, List<Question>> questions = new HashMap<>();
 
         try {
-            Files.lines(Path.of(questionFilePath)).forEach(line -> {  // block lambda
+            Files.lines(Path.of(questionFilePath)).forEach(line -> {
                 String[] tokens = line.split(",");
 
                 Category category = Category.valueOf(tokens[0].toUpperCase());
-                String question = tokens[1];
+                String questionText = tokens[1];
                 String[] choiceArray = tokens[2].split(";");
                 List<Choice> choices = new ArrayList<>();
-                for (String choice : choiceArray) {
-                    Choice choiceObj;
-                    if (choice.endsWith("*")) {
-                        choiceObj = new Choice(choice.substring(0, choice.length() - 1), true);
-                    } else {
-                        choiceObj = new Choice(choice.substring(0, choice.length()), false);
+                for (String choiceText : choiceArray) {
+                    boolean isCorrect = choiceText.endsWith("*");
+                    if (isCorrect) {
+                        choiceText = choiceText.substring(0, choiceText.length() - 1);
                     }
-                    choices.add(choiceObj);
+                    choices.add(new Choice(choiceText, isCorrect));
                 }
 
-                Collections.shuffle(choices);
+                Collections.shuffle(choices); // don't test for this since it is randomized
 
-                Question questionObj = new Question(category, question, choices);
-
-                if (questions.containsKey(questionObj.getCategory())) {
-                    questions.get(questionObj.getCategory()).add(questionObj);
-                } else {
-                    List<Question> questionList = new ArrayList<>();
-                    questionList.add(questionObj);
-                    questions.put(questionObj.getCategory(), questionList);
-                }
+                Question question = new Question(category, questionText, choices);
+                questions.computeIfAbsent(category, k -> new ArrayList<>()).add(question);
             });
-        }
-        catch (
-                IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        for (Map.Entry<Category, List<Question>> entry : questions.entrySet()) {
-            List<Question> questionList = entry.getValue();
-            Collections.shuffle(questionList);
-        }
+        questions.values().forEach(Collections::shuffle); // don't test for this since it is randomized
 
         return questions;
     }
-
-//- reads all questions from questions.csv, shuffles each question's choices (so the right answer isn't always C, for example)
-// - shuffles them, picks 7 from each category, and inserts them into QuestionBank
 }

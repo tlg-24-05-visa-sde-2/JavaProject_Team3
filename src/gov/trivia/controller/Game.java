@@ -14,15 +14,26 @@ import static com.apps.util.SplashApp.DEFAULT_PAUSE;
 
 public class Game {
     private Player player;
-    private QuestionBank questionBank;
+    QuestionBank questionBank;
 
     private int roundCount = 1;
     private int questionsGiven = 0;
     private int incorrectRoundAnswers = 0;
     private int failedRounds = 0;
-    private final Prompter prompter = new Prompter(new Scanner(System.in));
-    private final Scanner scanner = new Scanner(System.in);
-    private final long QUESTION_TIME_LIMIT = 20000L; // 20 seconds
+    private final Prompter prompter;
+    private final Scanner scanner;
+    private final long QUESTION_TIME_LIMIT = 30000L; // 30 seconds
+
+    // Constructor for production use
+    public Game() {
+        this(new Scanner(System.in));
+    }
+
+    // Constructor for testing purposes
+    public Game(Scanner scanner) {
+        this.scanner = scanner;
+        this.prompter = new Prompter(scanner);
+    }
 
     public void execute() {
         boolean gameOver = false;
@@ -47,7 +58,7 @@ public class Game {
         }
     }
 
-    private void initializeGame() {
+    void initializeGame() {
         welcome();
         System.out.println("Loading questions...");
         Console.pause(1500);
@@ -56,21 +67,7 @@ public class Game {
         System.out.println("Done!");
         Console.pause(1300);
 
-        String name = prompter.prompt("Welcome to QuizWiz! Please enter your name: ", "^[a-zA-Z]+$","\nPlease enter a valid name\n");
-
-
-
-//        String name = null;
-//        while(true){
-//            System.out.println("Welcome to QuizWiz! Please enter your name: ");
-//            name = scanner.nextLine();
-//            if(name.matches("^[a-zA-Z]+$")) {
-//                break;
-//            } else {
-//                System.out.println("Please enter a valid name: ");
-//            }
-//        }
-
+        String name = prompter.prompt("Welcome to QuizWiz! Please enter your name: ", "^[a-zA-Z]+$", "\nPlease enter a valid name\n");
         Console.pause(1200);
         Console.blankLines(1);
         player = new Player(name);
@@ -78,27 +75,27 @@ public class Game {
         questionBank = new QuestionBank();
     }
 
-    private void askQuestion(Question question) {
+    void askQuestion(Question question) {
         String questionText = question.getQuestionText();
         System.out.println(questionText);
         System.out.println("-".repeat(questionText.length()));
     }
 
-    private Boolean promptForChoice(Question question) {
+    Boolean promptForChoice(Question question) {
         List<Choice> options = question.getOptions();
         String[] choices = {"A", "B", "C", "D"};
         for (int i = 0; i < choices.length; i++) {
             System.out.println(choices[i] + " - " + options.get(i).getOptionText());
         }
 
-        System.out.println("Enter your guess (You have 20 seconds!): ");
+        System.out.println("Enter your guess (You have 30 seconds!): ");
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<String> future = executor.submit(() -> scanner.nextLine());
         String input;
 
         try {
-            input = future.get(20, TimeUnit.SECONDS);
+            input = future.get(30, TimeUnit.SECONDS);
         } catch (TimeoutException e) {
             System.out.println("Time's up!");
             future.cancel(true);
@@ -131,24 +128,11 @@ public class Game {
     }
 
     private Category promptForCategory() {
-//        System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
         displayCategories();
-
         blankLines(1);
         String input = prompter.prompt("Hello " + player.getName() + ". Please pick a category 1-4: ", "[1-4]", "\nPlease enter a valid category number.\n");
         pause(1000);
         blankLines(1);
-
-
-//        String input = scanner.nextLine();
-//        Console.pause(1000);
-//        Console.blankLines(1);
-//
-//        while (!input.matches("\\d+") || Integer.parseInt(input) < 1 || Integer.parseInt(input) > Category.values().length) {
-//            System.out.println("Invalid input. Please enter a valid category number.");
-//            input = scanner.nextLine();
-//        }
-
         return Category.fromId(Integer.parseInt(input));
     }
 
@@ -156,9 +140,8 @@ public class Game {
         boolean roundOver = false;
 
         Category category = promptForCategory();
-      
+
         System.out.println("You have chosen " + category + " -- Good luck, you’ve got this!");
-        Prompter prompter = new Prompter(scanner);
         prompter.prompt("Press [Enter] to get started...");
         Console.clear();
 
@@ -253,32 +236,5 @@ public class Game {
 
     public void welcome() {
         //Files.readString("resources/banner.txt");
-
-
-
-
-
-
-//        System.out.println("""
-//
-//                ________        .__          __      __.__
-//                \\_____  \\  __ __|__|_______ /  \\    /  \\__|_______
-//                 /  / \\  \\|  |  \\  \\___   / \\   \\/\\/   /  \\___   /
-//                /   \\_/.  \\  |  /  |/    /   \\        /|  |/    /
-//                \\_____\\ \\_/____/|__/_____ \\   \\__/\\  / |__/_____ \\
-//                       \\__>              \\/        \\/           \\/
-//
-//                """);
-//        System.out.println("---------------------------------------------------------");
-//        System.out.println();
-//        System.out.println(">>Rules<<");
-//        System.out.println("----------------");
-//        System.out.println("-Enter your name");
-//        System.out.println("-Pick a category");
-//        System.out.println("-2 incorrect answers and the game takes you back to category selection");
-//        System.out.println("-If you lose 2 rounds of any category the game ends");
-//        System.out.println("-Have fun!");
-//        System.out.println("----------------");
-//        System.out.println();
     }
 }

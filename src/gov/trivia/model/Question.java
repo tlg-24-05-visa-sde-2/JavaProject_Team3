@@ -1,17 +1,16 @@
 package gov.trivia.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
-    public Category category;
-    public String questionText;
-    public List<Choice> options;
+    private Category category;
+    private String questionText;
+    private List<Choice> choices;
 
-    public Question(Category category, String questionText, List<Choice> options) {
-        setCategory(category);
-        setQuestionText(questionText);
-        setOptions(options);
+    public Question(Category category, String questionText, List<Choice> choices) {
+        this.category = category;
+        this.questionText = questionText;
+        this.choices = choices;
     }
 
     public Category getCategory() {
@@ -30,11 +29,15 @@ public class Question {
         this.questionText = questionText;
     }
 
-    public List<Choice> getOptions() {
-        return options;
+    public List<Choice> getChoices() {
+        return choices;
     }
 
-    public void setOptions(List<Choice> options) {
-        this.options = options;
+    public void setChoices(List<Choice> choices) {
+        this.choices = choices;
+    }
+
+    public List<Choice> getOptions() {
+        return choices;
     }
 }
