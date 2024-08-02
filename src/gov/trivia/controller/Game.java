@@ -4,9 +4,12 @@ import com.apps.util.Console;
 import com.apps.util.Prompter;
 import gov.trivia.model.*;
 import com.apps.util.SplashApp;
+import static com.apps.util.Console.*;
 
 import java.util.*;
 import java.util.concurrent.*;
+
+import static com.apps.util.SplashApp.DEFAULT_PAUSE;
 
 public class Game {
     private Player player;
@@ -16,6 +19,7 @@ public class Game {
     private int questionsGiven = 0;
     private int incorrectRoundAnswers = 0;
     private int failedRounds = 0;
+    private final Prompter prompter = new Prompter(new Scanner(System.in));
     private final Scanner scanner = new Scanner(System.in);
     private final long QUESTION_TIME_LIMIT = 20000L; // 20 seconds
 
@@ -50,16 +54,21 @@ public class Game {
 
         System.out.println("Done!");
         Console.pause(1300);
-        String name = null;
-        while(true){
-            System.out.println("Welcome to QuizWiz! Please enter your name: ");
-            name = scanner.nextLine();
-            if(name.matches("^[a-zA-Z]+$")) {
-                break;
-            } else {
-                System.out.println("Please enter a valid name: ");
-            }
-        }
+
+        String name = prompter.prompt("Welcome to QuizWiz! Please enter your name: ", "^[a-zA-Z]+$","\nPlease enter a valid name\n");
+
+
+
+//        String name = null;
+//        while(true){
+//            System.out.println("Welcome to QuizWiz! Please enter your name: ");
+//            name = scanner.nextLine();
+//            if(name.matches("^[a-zA-Z]+$")) {
+//                break;
+//            } else {
+//                System.out.println("Please enter a valid name: ");
+//            }
+//        }
 
         Console.pause(1200);
         Console.blankLines(1);
@@ -121,17 +130,23 @@ public class Game {
     }
 
     private Category promptForCategory() {
-        System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
+//        System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
         displayCategories();
 
-        String input = scanner.nextLine();
-        Console.pause(1000);
-        Console.blankLines(1);
+        blankLines(1);
+        String input = prompter.prompt("Hello " + player.getName() + ". Please pick a category 1-4: ", "[1-4]", "\nPlease enter a valid category number.\n");
+        pause(1000);
+        blankLines(1);
 
-        while (!input.matches("\\d+") || Integer.parseInt(input) < 1 || Integer.parseInt(input) > Category.values().length) {
-            System.out.println("Invalid input. Please enter a valid category number.");
-            input = scanner.nextLine();
-        }
+
+//        String input = scanner.nextLine();
+//        Console.pause(1000);
+//        Console.blankLines(1);
+//
+//        while (!input.matches("\\d+") || Integer.parseInt(input) < 1 || Integer.parseInt(input) > Category.values().length) {
+//            System.out.println("Invalid input. Please enter a valid category number.");
+//            input = scanner.nextLine();
+//        }
 
         return Category.fromId(Integer.parseInt(input));
     }
@@ -155,9 +170,13 @@ public class Game {
 
             if (answer) {
                 System.out.println("Correct!");
+                pause(1500);
+                clear();
             } else {
                 System.out.println("Incorrect!");
                 incorrectRoundAnswers++;
+                pause(1500);
+                clear();
             }
 
             roundOver = questionsGiven == 7 || incorrectRoundAnswers == 2;
@@ -165,8 +184,12 @@ public class Game {
             if (incorrectRoundAnswers == 2) {
                 failedRounds++;
                 if (failedRounds > 1) {
-                    System.out.println("You missed 2 questions in two different categories. Please try again!");
-                    break;
+                    System.out.println("You missed 2 questions in two different categories");
+                    blankLines(2);
+                    pause(1500);
+                    System.out.println("Thank you for playing...");
+                    pause(1500);
+                    welcome();
                 }
             }
         }
