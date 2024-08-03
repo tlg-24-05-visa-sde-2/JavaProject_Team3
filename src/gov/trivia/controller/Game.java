@@ -66,10 +66,11 @@ public class Game {
         Console.pause(1200);
         Console.blankLines(1);
         clear();
-        displayRules();
         player = new Player(name);
-
         questionBank = new QuestionBank();
+        displayRules();
+        prompter.prompt("\nPress [Enter] to get started...");
+        clear();
     }
 
     private void askQuestion(Question question) {
@@ -81,66 +82,33 @@ public class Game {
     private Boolean promptForChoice(Question question) {
         List<Choice> choices = question.getChoices(); // getChoices is now used as recommended by Jay
         String[] options = {"A", "B", "C", "D"};
-
-        ExecutorService executor = Executors.newSingleThreadExecutor();
         boolean isCorrect = false;
 
-        while (!isCorrect) {
-            for (int i = 0; i < options.length; i++) {
-                System.out.println(options[i] + " - " + choices.get(i).getOptionText());
-            }
-
-            blankLines(1);
-            System.out.println("Enter your guess (You have 20 seconds!): ");
-
-            Future<String> future = executor.submit(() -> scanner.nextLine());
-
-            Thread countdownThread = new Thread(() -> {
-                try {
-                    for (int i = 20; i > 0; i--) {
-                        System.out.println("Time remaining: " + i + " seconds");
-                        Thread.sleep(1000);
-                    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            });
-            countdownThread.start();
-
-            String input;
-
-            try {
-                input = future.get(20, TimeUnit.SECONDS);
-            } catch (TimeoutException e) {
-                System.out.println("Time's up!");
-                future.cancel(true);
-                return false;
-            } catch (Exception e) {
-                future.cancel(true);
-                return false;
-            } finally {
-                countdownThread.interrupt();
-            }
-
-            if (input != null && Arrays.stream(options).anyMatch(input::equalsIgnoreCase)) {
-                int choiceIndex = Arrays.asList(options).indexOf(input.toUpperCase());
-                Choice guess = choices.get(choiceIndex);
-
-                if (guess.isCorrect()) {
-                    isCorrect = true;
-                    executor.shutdown();
-                    return true;
-                } else {
-                    System.out.println("Incorrect answer!");
-                }
-            } else {
-                System.out.println("Your input is invalid. Please enter A, B, C, or D.");
-            }
+        for (int i = 0; i < options.length; i++) {
+            System.out.println(options[i] + " - " + choices.get(i).getOptionText());
         }
 
-        executor.shutdown();
+        blankLines(1);
+
+        String input = prompter.prompt("\nEnter your guess: ", "[a-d]", "Your input is invalid. Please enter A, B, C, or D." );
+
+//        if (input != null && Arrays.stream(options).anyMatch(input::equalsIgnoreCase)) {
+//            int choiceIndex = Arrays.asList(options).indexOf(input.toUpperCase());
+//            Choice guess = choices.get(choiceIndex);
+//
+//            if (guess.isCorrect()) {
+//                isCorrect = true;
+//                return true;
+//            } else {
+//                System.out.println("Incorrect");
+//            }
+//        } else {
+//            System.out.println("Your input is invalid. Please enter A, B, C, or D.");
+//        }
+
         return false;
     }
+
 
     private void displayCategories() {
         categoryBooks();
@@ -152,13 +120,6 @@ public class Game {
     }
 
     private Category promptForCategory() {
-        clear();
-        displayRules();
-        blankLines(1);
-        prompter.prompt("\nPress [enter] to continue: ");
-        pause(1500);
-        clear();
-
         displayCategories();
         blankLines(2);
         String input = prompter.prompt("Hello " + player.getName() + ". Please pick a category 1-4: ", "[1-4]", "\nPlease enter a valid category number.\n");
