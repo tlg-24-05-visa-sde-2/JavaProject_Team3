@@ -6,14 +6,11 @@ import gov.trivia.model.*;
 import com.apps.util.SplashApp;
 import static com.apps.util.Console.*;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.Buffer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.*;
 
 import static com.apps.util.SplashApp.DEFAULT_PAUSE;
@@ -82,15 +79,15 @@ public class Game {
     }
 
     private Boolean promptForChoice(Question question) {
-        List<Choice> options = question.getOptions();
-        String[] choices = {"A", "B", "C", "D"};
+        List<Choice> choices = question.getChoices(); // getChoices is now used as recommended by Jay
+        String[] options = {"A", "B", "C", "D"};
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         boolean isCorrect = false;
 
         while (!isCorrect) {
-            for (int i = 0; i < choices.length; i++) {
-                System.out.println(choices[i] + " - " + options.get(i).getOptionText());
+            for (int i = 0; i < options.length; i++) {
+                System.out.println(options[i] + " - " + choices.get(i).getOptionText());
             }
 
             blankLines(1);
@@ -125,9 +122,9 @@ public class Game {
                 countdownThread.interrupt();
             }
 
-            if (input != null && Arrays.stream(choices).anyMatch(input::equalsIgnoreCase)) {
-                int choiceIndex = Arrays.asList(choices).indexOf(input.toUpperCase());
-                Choice guess = options.get(choiceIndex);
+            if (input != null && Arrays.stream(options).anyMatch(input::equalsIgnoreCase)) {
+                int choiceIndex = Arrays.asList(options).indexOf(input.toUpperCase());
+                Choice guess = choices.get(choiceIndex);
 
                 if (guess.isCorrect()) {
                     isCorrect = true;
@@ -155,7 +152,8 @@ public class Game {
     }
 
     private Category promptForCategory() {
-//        System.out.println("Hello " + player.getName() + ". Please pick a category 1-4: ");
+        clear();
+        displayRules();
         blankLines(1);
         prompter.prompt("\nPress [enter] to continue: ");
         pause(1500);
@@ -167,16 +165,6 @@ public class Game {
         pause(1000);
         blankLines(1);
 
-
-//        String input = scanner.nextLine();
-//        Console.pause(1000);
-//        Console.blankLines(1);
-//
-//        while (!input.matches("\\d+") || Integer.parseInt(input) < 1 || Integer.parseInt(input) > Category.values().length) {
-//            System.out.println("Invalid input. Please enter a valid category number.");
-//            input = scanner.nextLine();
-//        }
-
         return Category.fromId(Integer.parseInt(input));
     }
 
@@ -184,6 +172,7 @@ public class Game {
         boolean roundOver = false;
 
         Category category = promptForCategory();
+
       
         System.out.println("You have chosen " + category + " -- Good luck, you got this!");
         Prompter prompter = new Prompter(scanner);
@@ -280,27 +269,27 @@ public class Game {
     }
 
     public void welcome() {
-        try(FileReader reader = new FileReader("resources/banner.txt");){
+        try (FileReader reader = new FileReader("resources/banner.txt")) {
             int data = reader.read();
-            while(data != -1) {
+            while (data != -1) {
                 System.out.print((char) data);
                 data = reader.read();
             }
             reader.close();
-        } catch(IOException e){
-                e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     public void displayRules() {
-        try(FileReader reader = new FileReader("resources/rules.txt");){
+        try (FileReader reader = new FileReader("resources/rules.txt")) {
             int data = reader.read();
-            while(data != -1) {
+            while (data != -1) {
                 System.out.print((char) data);
                 data = reader.read();
             }
             reader.close();
-        } catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
