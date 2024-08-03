@@ -1,13 +1,12 @@
 package gov.trivia.model;
 
 public class Choice {
-    public char option;
-    public String optionText;
-    public boolean isCorrect;
+    private String optionText;
+    private boolean isCorrect;
 
     public Choice(String optionText, boolean isCorrect) {
-        setOptionText(optionText);
-        setCorrect(isCorrect);
+        this.optionText = optionText;
+        this.isCorrect = isCorrect;
     }
 
     public boolean isCorrect() {
