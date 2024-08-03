@@ -45,8 +45,16 @@ public class Game {
         }
 
         if (failedRounds < 2) {
-            System.out.println("Well done! You’ve won!");
-            System.out.println("Do you wish to continue?");
+            System.out.println("Congratulations, you win!");
+
+            String input = prompter.prompt("Would you like to play again? [y/n]", "[y|n]", "y and n are the only acceptable inputs");
+            if(input.equals("y")){
+                initializeGame();
+            } else {
+                System.out.println("Thank you for playing...");
+                pause(1500);
+                welcome();
+            }
         }
     }
 
@@ -89,8 +97,10 @@ public class Game {
         }
 
         blankLines(1);
-
+        System.out.println("Number of missed questions: " + incorrectRoundAnswers);
         String input = prompter.prompt("\nEnter your guess: ", "[a-d]", "Your input is invalid. Please enter A, B, C, or D.");
+        blankLines(1);
+
 
         if (input != null && Arrays.stream(options).anyMatch(input::equalsIgnoreCase)) {
             int choiceIndex = Arrays.asList(options).indexOf(input.toUpperCase());
@@ -119,6 +129,8 @@ public class Game {
     private Category promptForCategory() {
         displayCategories();
         blankLines(2);
+        System.out.println("Failed rounds " + failedRounds);
+        blankLines(1);
         String input = prompter.prompt("Hello " + player.getName() + ". Please pick a category 1-4: ", "[1-4]", "\nPlease enter a valid category number.\n");
         pause(1000);
         blankLines(1);
@@ -155,12 +167,12 @@ public class Game {
                 clear();
             }
 
-            roundOver = questionsGiven == 7 || incorrectRoundAnswers == 2;
+            roundOver = questionsGiven == 7 || incorrectRoundAnswers == 5;
 
-            if (incorrectRoundAnswers == 2) {
+            if (incorrectRoundAnswers == 5) {
                 failedRounds++;
                 if (failedRounds > 1) {
-                    System.out.println("You missed 2 questions in two different categories");
+                    System.out.println("You missed 2 questions in two different categories therefore it is GAME OVER");
                     blankLines(2);
                     pause(1500);
                     System.out.println("Thank you for playing...");
