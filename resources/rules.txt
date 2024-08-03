@@ -22,11 +22,15 @@
 
 >>Welcome to Quiz Wiz! Here is how to play<<
 --------------------------------------------
-1. Choose a Category
+1. Choose a Category:
 - Pick from Sports, History, Music, and a special category JAYISMS! A category specific to Jay and his sayings/mannerisms. Choose wisely!
 
-2. Stay in the Game
-- Miss two questions in one category, and you will move to another category. Miss two questions in two different categories, and the game ends.
+2 Answer the questions:
+- Once a category is selected you will be given 7 randomized questions from that category
+
+2. Stay in the Game:
+- Miss two questions in one category, and you will be taken back to the category selection screen.
+- Miss two questions in two different categories, and the game ends.
 
 "Remember, a quick wit is the best spell in your arsenal. Good luck!"
 ---------------------------------------------------------------------
