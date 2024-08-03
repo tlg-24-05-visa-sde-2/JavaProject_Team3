@@ -90,25 +90,22 @@ public class Game {
 
         blankLines(1);
 
-        String input = prompter.prompt("\nEnter your guess: ", "[a-d]", "Your input is invalid. Please enter A, B, C, or D." );
+        String input = prompter.prompt("\nEnter your guess: ", "[a-d]", "Your input is invalid. Please enter A, B, C, or D.");
 
-//        if (input != null && Arrays.stream(options).anyMatch(input::equalsIgnoreCase)) {
-//            int choiceIndex = Arrays.asList(options).indexOf(input.toUpperCase());
-//            Choice guess = choices.get(choiceIndex);
-//
-//            if (guess.isCorrect()) {
-//                isCorrect = true;
-//                return true;
-//            } else {
-//                System.out.println("Incorrect");
-//            }
-//        } else {
-//            System.out.println("Your input is invalid. Please enter A, B, C, or D.");
-//        }
+        if (input != null && Arrays.stream(options).anyMatch(input::equalsIgnoreCase)) {
+            int choiceIndex = Arrays.asList(options).indexOf(input.toUpperCase());
+            Choice guess = choices.get(choiceIndex);
+
+            if (guess.isCorrect()) {
+                isCorrect = true;
+                return true;
+            } else {
+                return false;
+            }
+        }
 
         return false;
     }
-
 
     private void displayCategories() {
         categoryBooks();
