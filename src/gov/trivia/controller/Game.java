@@ -129,7 +129,7 @@ public class Game {
     private Category promptForCategory() {
         displayCategories();
         blankLines(2);
-        System.out.println("Failed rounds " + failedRounds);
+        System.out.println("Rounds failed " + failedRounds);
         blankLines(1);
         String input = prompter.prompt("Hello " + player.getName() + ". Please pick a category 1-4: ", "[1-4]", "\nPlease enter a valid category number.\n");
         pause(1000);
