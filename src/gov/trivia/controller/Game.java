@@ -65,6 +65,8 @@ public class Game {
 
         Console.pause(1200);
         Console.blankLines(1);
+        clear();
+        displayRules();
         player = new Player(name);
 
         questionBank = new QuestionBank();
@@ -88,6 +90,7 @@ public class Game {
                 System.out.println(options[i] + " - " + choices.get(i).getOptionText());
             }
 
+            blankLines(1);
             System.out.println("Enter your guess (You have 20 seconds!): ");
 
             Future<String> future = executor.submit(() -> scanner.nextLine());
@@ -97,7 +100,6 @@ public class Game {
                     for (int i = 20; i > 0; i--) {
                         System.out.println("Time remaining: " + i + " seconds");
                         Thread.sleep(1000);
-                        clear();
                     }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -141,9 +143,11 @@ public class Game {
     }
 
     private void displayCategories() {
+        categoryBooks();
+
         Category[] categories = Category.values();
         for (int i = 0; i < categories.length; i++) {
-            System.out.println((i + 1) + ". " + categories[i]);
+//            System.out.println((i + 1) + ". " + categories[i]);
         }
     }
 
@@ -154,9 +158,9 @@ public class Game {
         prompter.prompt("\nPress [enter] to continue: ");
         pause(1500);
         clear();
-        displayCategories();
 
-        blankLines(1);
+        displayCategories();
+        blankLines(2);
         String input = prompter.prompt("Hello " + player.getName() + ". Please pick a category 1-4: ", "[1-4]", "\nPlease enter a valid category number.\n");
         pause(1000);
         blankLines(1);
@@ -169,7 +173,9 @@ public class Game {
 
         Category category = promptForCategory();
 
-        System.out.println("You have chosen " + category + " -- Good luck, you’ve got this!");
+      
+        System.out.println("You have chosen " + category + " -- Good luck, you got this!");
+        Prompter prompter = new Prompter(scanner);
         prompter.prompt("Press [Enter] to get started...");
         Console.clear();
 
@@ -284,6 +290,19 @@ public class Game {
             }
             reader.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void categoryBooks() {
+        try(FileReader reader = new FileReader("resources/catbooks.txt");){
+            int data = reader.read();
+            while(data != -1) {
+                System.out.print((char) data);
+                data = reader.read();
+            }
+            reader.close();
+        } catch(IOException e){
             e.printStackTrace();
         }
     }
