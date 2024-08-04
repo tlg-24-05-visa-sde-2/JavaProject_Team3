@@ -5,9 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-//SPORTS,What baseball player holds the record for most home runs?,Hank Aaron;Babe Ruth;Barry Bonds*;Jay Rostosky
 public class QuestionLoader {
-    private static final String questionFilePath = "data/questions.csv";
+    private static final String questionFilePath = "data/150questions.csv";
 
     public static Map<Category, List<Question>> loadQuestions() {
         Map<Category, List<Question>> questions = new HashMap<>();
@@ -42,9 +41,7 @@ public class QuestionLoader {
                     questions.put(questionObj.getCategory(), questionList);
                 }
             });
-        }
-        catch (
-                IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -55,7 +52,4 @@ public class QuestionLoader {
 
         return questions;
     }
-
-//- reads all questions from questions.csv, shuffles each question's choices (so the right answer isn't always C, for example)
-// - shuffles them, picks 7 from each category, and inserts them into QuestionBank
 }
