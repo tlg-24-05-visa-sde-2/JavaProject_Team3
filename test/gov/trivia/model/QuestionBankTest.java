@@ -1,12 +1,18 @@
 package gov.trivia.model;
 
 import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.Test;
 import java.util.List;
 import java.util.Map;
 
 public class QuestionBankTest {
     private QuestionBank questionBank;
+
+    @Before
+    public void setUp() throws Exception {
+        questionBank = new QuestionBank();
+    }
 
     @Test
     public void testQuestionBank_loadedCorrectly() {
@@ -29,12 +35,10 @@ public class QuestionBankTest {
 
         int initialSize = questions.size();
 
-
         Question nextQuestion = questionBank.nextQuestion(category);
 
         // How can we know if our list get smaller by 1--double check the nextQuestion method?
         assertEquals(initialSize - 1, questions.size());
-
 
         assertNotNull(nextQuestion);
     }
@@ -51,14 +55,15 @@ public class QuestionBankTest {
         assertTrue(questions.isEmpty());
 
         // It should throw an error if there are no questions.
-        Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+        try {
             questionBank.nextQuestion(category);
-        });
-
-        // Does the error message match?
-        String expectedMessage = "Index: 0, Size: 0";
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
+            fail("Expected an IndexOutOfBoundsException to be thrown");
+        } catch (IndexOutOfBoundsException e) {
+            // Does the error message match?
+            String expectedMessage = "No more questions in this category!";
+            String actualMessage = e.getMessage();
+            assertTrue(actualMessage.contains(expectedMessage));
+        }
     }
 
     @Test
