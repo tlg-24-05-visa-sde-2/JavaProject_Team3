@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class QuestionLoader {
-    private static final String questionFilePath = "data/150questions.csv";
+    private static final String questionFilePath = "data/questions.csv";
 
     public static Map<Category, List<Question>> loadQuestions() {
         Map<Category, List<Question>> questions = new HashMap<>();

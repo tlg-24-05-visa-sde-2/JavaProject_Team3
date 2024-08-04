@@ -46,11 +46,13 @@ public class Game {
 
         if (failedRounds < 2) {
             System.out.println("Congratulations, you win!");
-
+            blankLines(2);
             String input = prompter.prompt("Would you like to play again? [y/n]", "[y|n]", "y and n are the only acceptable inputs");
             if(input.equals("y")){
-                initializeGame();
+                clear();
+                execute();
             } else {
+                clear();
                 System.out.println("Thank you for playing...");
                 pause(1500);
                 welcome();
@@ -167,9 +169,9 @@ public class Game {
                 clear();
             }
 
-            roundOver = questionsGiven == 7 || incorrectRoundAnswers == 5;
+            roundOver = questionsGiven == 7 || incorrectRoundAnswers == 2;
 
-            if (incorrectRoundAnswers == 5) {
+            if (incorrectRoundAnswers == 2) {
                 failedRounds++;
                 if (failedRounds > 1) {
                     System.out.println("You missed 2 questions in two different categories therefore it is GAME OVER");
@@ -190,52 +192,6 @@ public class Game {
 
     private void loadQuestions() {
         questionBank = new QuestionBank();
-    }
-
-    public void welcome(String... messages) throws IllegalArgumentException {
-        for (String message : messages) {
-            System.out.println(message);
-            try {
-                Thread.sleep(DEFAULT_PAUSE);
-            } catch (InterruptedException e) {
-                throw new IllegalArgumentException("Error initializing application", e);
-            }
-        }
-    }
-
-    private void clearConsole() {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void handleUserChoice(int choice) {
-        switch (choice) {
-            case 1:
-                clearConsole();
-                break;
-            case 2:
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case 3:
-                System.out.println("Press Enter to continue...");
-                scanner.nextLine();
-                break;
-            default:
-                System.out.println("Invalid choice.");
-                break;
-        }
     }
 
     public void welcome() {

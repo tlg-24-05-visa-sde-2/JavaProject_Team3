@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class QuestionLoaderTest {
 
-    private static final String QUESTION_FILE_PATH = "data/150questions.csv";
+    private static final String QUESTION_FILE_PATH = "data/questions.csv";
 
     @Before
     public void setUp() throws Exception {
