@@ -14,7 +14,7 @@ public class QuestionLoaderTest {
 
     @Before
     public void setUp() throws Exception {
-        // Ensure the questions file exists(I did not rename the file from 150questions to 200questions.csv with the addition of cat4
+        // Ensure the questions file exists
         assertTrue(Files.exists(Path.of(QUESTION_FILE_PATH)));
     }
 
@@ -30,7 +30,7 @@ public class QuestionLoaderTest {
         assertTrue(questionMap.containsKey(Category.MUSIC));
         assertTrue(questionMap.containsKey(Category.JAYISMS));
 
-        // Check that questions are loaded into all 4 categories the correct categories
+        // Check that questions are loaded into all 4 categories correctly
         List<Question> sportsQuestions = questionMap.get(Category.SPORTS);
         assertNotNull(sportsQuestions);
         assertFalse(sportsQuestions.isEmpty());
