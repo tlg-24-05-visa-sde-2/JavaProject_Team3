@@ -23,7 +23,7 @@
 >>Welcome to Quiz Wiz! Here is how to play<<
 --------------------------------------------
 1. Choose a Category:
-- Pick from Sports, History, Music, and a special category JAYISMS! A category specific to Jay and his sayings/mannerisms. Choose wisely!
+- Pick from Sports, History, Music, and the special category JAY-ISMS! Choose wisely!
 
 2 Answer the questions:
 - Once a category is selected you will be given 7 randomized questions from that category
