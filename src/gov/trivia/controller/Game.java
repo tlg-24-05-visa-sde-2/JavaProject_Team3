@@ -174,10 +174,10 @@ public class Game {
             if (incorrectRoundAnswers == 2) {
                 failedRounds++;
                 if (failedRounds > 1) {
-                    System.out.println("You missed 2 questions in two different categories therefore it is GAME OVER");
+                    System.out.println("Alas! You've missed 2 questions in two categories. The Quiz Wizard declares: GAME OVER!");
                     blankLines(2);
                     pause(1500);
-                    System.out.println("Thank you for playing...");
+                    System.out.println("Thanks for playing!");
                     pause(1500);
                     welcome();
                 }

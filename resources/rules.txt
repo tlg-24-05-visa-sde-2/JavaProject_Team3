@@ -20,17 +20,19 @@
 *           /   /   |   \   \                                             *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
->>Welcome to Quiz Wiz! Here is how to play<<
+Welcome to Quiz Wiz! Here’s how to play:
 --------------------------------------------
+
 1. Choose a Category:
 - Pick from Sports, History, Music, and the special category JAY-ISMS! Choose wisely!
 
-2 Answer the questions:
-- Once a category is selected you will be given 7 randomized questions from that category
+2. Answer the Questions:
+- Once a category is selected, you will be given 7 randomized questions from that category.
 
-2. Stay in the Game:
+3. Endure the Challenge:
 - Miss two questions in one category, and you will be taken back to the category selection screen.
 - Miss two questions in two different categories, and the game ends.
 
-"Remember, a quick wit is the best spell in your arsenal. Good luck!"
+The special category JAY-ISMS holds secrets known only to the wise.
+Tread carefully and may your wit be your greatest ally! Good luck!
 ---------------------------------------------------------------------
