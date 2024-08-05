@@ -149,52 +149,52 @@ MUSIC, Who is the lead singer of 'The Rolling Stones'?,Mick Jagger*;Freddie Merc
 MUSIC, Which artist released 'The Wall'?,Pink Floyd*;Led Zeppelin;The Beatles;The Rolling Stones
 MUSIC, What is the primary instrument used in a symphony orchestra,Violin*;Trumpet;Flute;Drums
 JAYISMS,The following person is out of the office and may not respond:,Ivy Muir;Nancy Gale;Nelly Sugu;Jeannette Neaves*
-JAYISMS,After importing a module directory into IntelliJ, you press what?,Spacebar 5 times;Enter 5 times*;Spacebar 3 times;Enter 3 times
+JAYISMS,After importing a module directory into IntelliJ you press what?,Spacebar 5 times;Enter 5 times*;Spacebar 3 times;Enter 3 times
 JAYISMS,What will I give you the following in just a moment? - I promise,Stretch break*;Debit card;Prize;Whiteboard model
 JAYISMS,Now this is when I drop down what?,A down payment;The glasses*;An arrow key;A slide
 JAYISMS,Finish the following phrase: Just wait and don't worry - it's:,Going;Coming*;Leaving;Drifting
 JAYISMS,You are getting awfully quiet - let me remind you that <BLANK> is a thing:,Disruptions;Participation*;Interruptions;Troubleshooting
 JAYISMS,It is generally better to call your own what?,Setters;Getters*;Letters;Constructors
-JAYISMS,What does Jay like to write at night?,jira stories;haiku*;api docs;skits
-JAYISMS,Who is the main accountant at HR Inc.?,Joanne*;Jane;John;Franco
+JAYISMS,What does Jay like to write at night?,Jira stories;Haiku*;API docs;Skits
+JAYISMS,Who is the main accountant at HR Inc?,Joanne*;Jane;John;Franco
 JAYISMS,What subject did Jay teach in the past that greatly influenced our assignments?,History;Music;Art;Math*
 JAYISMS,Why was the West Seattle Bridge closed for two years - between 2020 and 2022?,Excessive cracking*;Covid;Flooding;Earthquake
 JAYISMS,On average - what percentage of students feel confident about understanding how to write Generic classes?,72;28*;50;10
 JAYISMS,Who had the most wins in the Duck Race?,Bullen;Kelvin;Cortney;Sherie*
-JAYISMS,How many children does Jay have?,4;2*;none;1
-JAYISMS,"static" is a six-letter word that begins with the letter 's' - what's the other one?,stored;shared*;stingy;shaped
-JAYISMS,"final" is a five-letter word that begins with the letter 'f' - what's the other one?,front;fixed*;front;float
-JAYISMS,Who is the most opinionated sagitarius in Java Part I and II?,Kelvin;Tobi;Jay*;Jasmine
-JAYISMS,You are encouraged to do the following during the weekend?,touch your head;touch your nose;touch some grass*;touch some toes
+JAYISMS,How many children does Jay have?,4;2*;None;1
+JAYISMS,"static" is a six-letter word that begins with the letter 's' - what's the other one?,Stored;Shared*;Stingy;Shaped
+JAYISMS,"final" is a five-letter word that begins with the letter 'f' - what's the other one?,Front;Fixed*;Front;Float
+JAYISMS,Who is the most opinionated sagittarius in Java Part I and II?,Kelvin;Tobi;Jay*;Jasmine
+JAYISMS,You are encouraged to do the following during the weekend?,Touch your head;Touch your nose;Touch some grass*;Touch some toes
 JAYISMS,Nelly says that your current students know what?,GUI;GIT*;AWS;LINUX
 JAYISMS,Students are encouraged to do what when a concept is unclear?,tell Nancy;simply unmute and be vocal about it*;nothing;vent
 JAYISMS,What is Jay's beverage of choice?,sparkling water*;mineral water;distilled water;spring water
 JAYISMS,What does Jay not get much of?,sleep;food;food and sleep*;water
 JAYISMS,Which student does Jay say sounds like Lou Rawls?,Tobi*;Chris;Deshon;Jeff
-JAYISMS,When you see a radio button or a pull-down control on a user interface, think of what?,enum*;class;attribute;methods
+JAYISMS,When you see a radio button or a pull-down control on a user interface think of what?,enum*;class;attribute;methods
 JAYISMS,Which two film writers failed to get funding for their movie production?,Tyler and Tyler Perry;Lakea and Arunka;Deshon and Jay*;Jasmine and Jordan Peele
 JAYISMS,What accent has Jay spoken in during lecture?,British*;Welsh;Scottish;Jamaican
 JAYISMS,How many times did Jay wave those red markers in front of the camera?,2 times;10 times;20 times;Countless*
 JAYISMS,What was the item to the left of the television in that picture of the lady in the chair?,hookah;genie lamp*;a remote;a pen
 JAYISMS,What image was on the television in that picture of the lady in the chair?,dancers*;ducks;dragons;dogs
 JAYISMS,Why does Jay always show a whiteboard during lunch?,because that's what Jay does*;Cort requested it;mandated by Apprenti;mandated by TLG
-JAYISMS,Why hasn't Jay eaten the Kinder Egg Surprise?,he is allergic to chocolate,he is saving it for the twins, he prefers other types of candy,it is for demo purposes only*
+JAYISMS,Why hasn't Jay eaten the Kinder Egg Surprise?,he is allergic to chocolate;he is saving it for the twins;he prefers other types of candy;it is for demo purposes only*
 JAYISMS,What does Jay like to own thousands of?,socks;compact discs*;guitars;hats
-JAYISMS,Many UML diagrams can be written on what?,scrap paper,a napkin,a whiteboard,all of the above*
-JAYISMS,Fill in the blank we get started today at what time?,8:00 am Eastern time,6:00 am Mountain time,9:00 am Central time,7:00 am Pacific time*
-JAYISMS,Jay's mother would ask where are the?,the good knives,hair brushes,hair bows,the good scissors*
-JAYISMS,Who was the person that was able to rustle up another class day because we missed 3 days of classes?,Ivy Green,Erin Leach*;Nancy Grey,TLG Support
-JAYISMS,Jay is not a fan of what?,early return types*;inline comments,global variables,multiple return statements
-JAYISMS,In Jay's real life which of the following run time decisions did he not make relating to transportation?,take the hover board*;take the car,take the bus,take the bike
-JAYISMS,As predicted the following what is out and should be completed today?,the feedback survey,the course evaluation survey,the satisfaction survey,the pace survey*
-JAYISMS,When you browse Java API docs in classes you may see what which of the following influenced by Fran and Jack?,question mark and method level letter*;question mark,method level letter,punctuation
-JAYISMS,What is often avoided like a plague, but you must stay with it?,writing generic classes*,refactoring JS,pseudocoding,debugging
-JAYISMS,What is the DRY Principle?,Do review yearly,Don't repeat yourself*;Design right yourself,Develop robust systems
-JAYISMS,What is the YAGNI principle?,You are getting nowhere intentionally,You always get new ideas,Ya ain't gonna need it*;Yes, always get new insights
-JAYISMS,What should you include in the pace survey that are helpful?,no suggestions,ratings,additional resources needed,comments at the end*
-JAYISMS,Who raised their hand because they knew something about roofing?,Tobi,Chris,Jay,Tobi and Chris*
-JAYISMS,What is Jay's spouse's occupation?,an architect*;an archaeologist,an accountant,an astrologist
-JAYISMS,How many student IDs were included in the Duck Race Results?,9,10,11*;12
-JAYISMS,If you do not write the constructor it is what?,implicitly private*;public,final,explicitly private
-JAYISMS,Which principle encourages you to avoid redundancy in your code?,DRY (Don't Repeat Yourself)*,KISS (Keep It Simple, Silly),YAGNI (You Aren't Gonna Need It),SOLID
-JAYISMS,What city can Jay be found in to collect your debit cards and prizes?,New York City,Seattle*;Austin,Atlanta
+JAYISMS,Many UML diagrams can be written on what?,scrap paper;a napkin;a whiteboard;all of the above*
+JAYISMS,Fill in the blank we get started today at what time?,8:00 am Eastern time;6:00 am Mountain time;9:00 am Central time;7:00 am Pacific time*
+JAYISMS,Jay's mother would ask where are the?,the good knives;hair brushes;hair bows;the good scissors*
+JAYISMS,Who was the person that was able to rustle up another class day because we missed 3 days of classes?,Ivy Green;Erin Leach*;Nancy Grey;TLG Support
+JAYISMS,Jay is not a fan of what?,early return types*;inline comments;global variables;multiple return statements
+JAYISMS,In Jay's real life which of the following run time decisions did he not make relating to transportation?,take the hover board*;take the car;take the bus;take the bike
+JAYISMS,As predicted the following what is out and should be completed today?,the feedback survey;the course evaluation survey;the satisfaction survey;the pace survey*
+JAYISMS,When you browse Java API docs in classes you may see what which of the following influenced by Fran and Jack?,question mark and method level letter*;question mark;method level letter;punctuation
+JAYISMS,What is often avoided like a plague but you must stay with it?,writing generic classes*;refactoring JS;pseudocoding;debugging
+JAYISMS,What is the DRY Principle?,Do review yearly;Don't repeat yourself*;Design right yourself;Develop robust systems
+JAYISMS,What is the YAGNI principle?,You are getting nowhere intentionally;You always get new ideas;Ya ain't gonna need it*;Yes always get new insights
+JAYISMS,What should you include in the pace survey that are helpful?,no suggestions;ratings;additional resources needed;comments at the end*
+JAYISMS,Who raised their hand because they knew something about roofing?,Tobi;Chris;Jay;Tobi and Chris*
+JAYISMS,What is Jay's spouse's occupation?,an architect*;an archaeologist;an accountant;an astrologist
+JAYISMS,How many student IDs were included in the Duck Race Results?,9;10;11*;12
+JAYISMS,If you do not write the constructor it is what?,implicitly private*;public;final;explicitly private
+JAYISMS,Which principle encourages you to avoid redundancy in your code?,DRY (Don't Repeat Yourself)*;KISS (Keep It Simple Silly);YAGNI (You Aren't Gonna Need It);+SOLID
+JAYISMS,What city can Jay be found in to collect your debit cards and prizes?,New York City;Seattle*;Austin;Atlanta

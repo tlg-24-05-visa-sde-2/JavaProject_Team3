@@ -28,7 +28,7 @@
 2 Answer the questions:
 - Once a category is selected you will be given 7 randomized questions from that category
 
-2. Stay in the Game:
+3. Stay in the Game:
 - Miss two questions in one category, and you will be taken back to the category selection screen.
 - Miss two questions in two different categories, and the game ends.
 
