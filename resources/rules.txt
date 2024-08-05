@@ -20,7 +20,7 @@
 *           /   /   |   \   \                                             *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-Welcome to Quiz Wiz! Here’s how to play:
+Welcome to Quiz Wiz! How to play:
 --------------------------------------------
 
 1. Choose a Category:
